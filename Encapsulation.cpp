@@ -29,16 +29,6 @@ public:
         }
     }
 };
-class HeatingSystem {
-public:
-    void turnOn() {
-        std::cout << "Heating system turned on." << std::endl;
-    }
-
-    void turnOff() {
-        std::cout << "Heating system turned off." << std::endl;
-    }
-};
 
 class Thermostat {
 private:
@@ -51,6 +41,34 @@ public:
         return currentTemperature;
     }
 };
+
+class HeatingSystem {
+public:
+    void checkIfHitTargetTemp(const Thermostat t_thermostat)
+    {
+        if (t_thermostat.getCurrentTemperature() < TARGET_TEMP) 
+        {
+            turnOn();
+        }
+        else
+        {
+            turnOff();
+        }
+    }
+
+private:
+    const float TARGET_TEMP = 20.0f;
+
+    void turnOn() {
+        std::cout << "Heating system turned on." << std::endl;
+    }
+
+    void turnOff() {
+        std::cout << "Heating system turned off." << std::endl;
+    }
+};
+
+
 #include <iostream>
 #include <string>
 
@@ -144,12 +162,7 @@ int main() {
     Thermostat thermostat(18.5);
     HeatingSystem heating;
 
-    if (thermostat.getCurrentTemperature() < 20.0) {
-        heating.turnOn();
-    }
-    else {
-        heating.turnOff();
-    }
+    heating.checkIfHitTargetTemp(thermostat);
     
     //////////////////////////////////////////////////////////////////
     // Exercise 3
