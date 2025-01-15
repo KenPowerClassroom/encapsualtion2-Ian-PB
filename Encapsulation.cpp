@@ -99,6 +99,7 @@ public:
 
     void returnBook() 
     {
+
         isAvailable = true;
     }
 };
@@ -127,8 +128,31 @@ public:
         return ammo;
     }
 
-    void takeDamage(int damage) {
-        health -= damage;
+    void takeDamage(int damage) 
+    {
+        if (health > 0)
+        {
+            health -= damage;
+        }
+    }
+
+    void attack()
+    {
+        useAmmo();
+        std::cout << "Player attacked and used ammo." << std::endl;
+    }
+
+    bool playerReact()
+    {
+        if (ammo > 0)
+        {
+            attack();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     void useAmmo() {
@@ -138,13 +162,13 @@ public:
 
 class Game {
 public:
-    void enemyAttack(Player& player) {
-        if (player.getHealth() > 0 && player.getAmmo() > 0) {
+    void enemyAttack(Player& player) 
+    {
+        // Assuming that if the player has ammo they can respond by attacking
+        if (!player.playerReact())
+        {
+            // If the player has no ammo they'll take damage
             player.takeDamage(10);
-            player.useAmmo();
-            std::cout << "Player attacked and used ammo." << std::endl;
-        }
-        else {
             std::cout << "Player can't respond to attack." << std::endl;
         }
     }
@@ -184,6 +208,7 @@ int main() {
     Player player;
     Game game;
 
+    // This is how I assumed it would work
     game.enemyAttack(player); // Player can respond to attack
 
     return 0;
